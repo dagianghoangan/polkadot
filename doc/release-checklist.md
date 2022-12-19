@@ -16,8 +16,6 @@ Add any necessary assets to the release. They should include:
 - Source code
 - Wasm binaries of any runtimes
 
-### Release notes
-
 The release notes should list:
 
 - The priority of the release (i.e., how quickly users should upgrade) - this is
@@ -33,13 +31,10 @@ The release notes may also list:
     regarding this release
 - Notable changes (those labelled with B[1-9]-* labels) separated into sections
 
-### Spec Version
 
 A runtime upgrade must bump the spec number. This may follow a pattern with the
 client release (e.g. runtime v12 corresponds to v0.8.12, even if the current
 runtime is not v11).
-
-### Old Migrations Removed
 
 Any previous `on_runtime_upgrade` functions from old upgrades must be removed
 to prevent them from executing a second time. The `on_runtime_upgrade` function
@@ -72,27 +67,3 @@ as long as the indexes did not change.
 The runtime contains proxy filters that map proxy types to allowable calls. If
 the new runtime contains any new calls, verify that the proxy filters are up to
 date to include them.
-
-### Benchmarks
-
-There are three benchmarking machines reserved for updating the weights at
-release-time. To initialise a benchmark run for each production runtime
-(westend, kusama, polkadot):
-* Go to https://gitlab.parity.io/parity/polkadot/-/pipelines?page=1&scope=branches&ref=master
-* Click the link to the last pipeline run for master
-* Start each of the manual jobs:
-  * 'update_westend_weights'
-  * 'update_polkadot_weights'
-  * 'update_kusama_weights'
-* When these jobs have completed (it takes a few hours), a git PATCH file will
-    be available to download as an artifact. 
-* On your local machine, branch off master
-* Download the patch file and apply it to your branch with `git patch patchfile.patch`
-* Commit the changes to your branch and submit a PR against master
-* The weights should be (Currently manually) checked to make sure there are no
-    big outliers (i.e., twice or half the weight).
-
-### Polkadot JS
-
-Ensure that a release of [Polkadot JS API]() contains any new types or
-interfaces necessary to interact with the new runtime.
